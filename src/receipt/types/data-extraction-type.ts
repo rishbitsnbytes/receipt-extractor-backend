@@ -4,6 +4,7 @@ export interface ReceiptItem {
 }
 
 export interface ExtractionData {
+  id?: string;
   imageUrl: string;
   date: string | null;
   currency: string | null;
