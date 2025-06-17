@@ -1,14 +1,23 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import type { ExtractionData } from './types/data-extraction-type';
-
 @Injectable()
 export class ReceiptService {
-  extractData(body: { file: Express.Multer.File }): ExtractionData | null {
-    const { file } = body;
-    if (!file) {
-      return null;
-    }
-    // TODO: Implement the actual data extraction logic here
-    return null;
+  constructor(private readonly configService: ConfigService) {}
+
+  extractData(file: Express.Multer.File): ExtractionData {
+    const baseUrl = this.configService.get<string>(
+      'BASE_URL',
+      'http://localhost:3000',
+    );
+    const imageUrl = `${baseUrl}/public/uploads/${file.filename}`;
+    return {
+      imageUrl,
+      date: null,
+      currency: null,
+      vendor: null,
+      items: [],
+      total: null,
+    };
   }
 }
