@@ -1,3 +1,7 @@
+import 'dotenv/config'; // <-- add this line first
+import { setupGoogleServiceAccountKey } from './utils/google-service-account';
+setupGoogleServiceAccountKey();
+
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';

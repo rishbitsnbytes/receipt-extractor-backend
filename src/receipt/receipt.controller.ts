@@ -31,7 +31,6 @@ export class ReceiptController {
   async extractData(
     @UploadedFile() file: Express.Multer.File,
   ): Promise<ExtractionData | null> {
-    console.log('Received file:', file);
     if (!file) throw new BadRequestException('File is required');
     return this.receiptService.extractData(file);
   }

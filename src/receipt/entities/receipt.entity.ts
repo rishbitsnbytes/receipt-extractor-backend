@@ -5,10 +5,10 @@ import { AIProvider } from '../enums/ai-provider.enum';
 @Schema({ _id: false }) // Subdocument schema for receipt items
 export class ReceiptItem {
   @Prop({ type: String, default: null })
-  itemName: string | null;
+  name: string | null;
 
   @Prop({ type: String, default: null })
-  itemCost: string | null;
+  cost: string | null;
 }
 
 const ReceiptItemSchema = SchemaFactory.createForClass(ReceiptItem);
