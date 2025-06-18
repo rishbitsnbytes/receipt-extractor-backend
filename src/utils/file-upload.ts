@@ -9,7 +9,7 @@ function fileFilter(
   req: Request,
   file: Express.Multer.File,
   cb: FileFilterCallback,
-) {
+): void {
   if (!IMAGE_MIME_TYPES.includes(file.mimetype)) {
     return cb(new Error('Only PNG, JPG and JPEG images are allowed!'));
   }
@@ -21,10 +21,10 @@ function filename(
   req: Request,
   file: Express.Multer.File,
   cb: (error: Error | null, filename: string) => void,
-) {
-  const ext = extname(file.originalname);
-  const uuid = uuidv4();
-  const uniqueName = `${uuid}${ext}`;
+): void {
+  const ext: string = extname(file.originalname);
+  const uuid: string = uuidv4();
+  const uniqueName: string = `${uuid}${ext}`;
   cb(null, uniqueName);
 }
 

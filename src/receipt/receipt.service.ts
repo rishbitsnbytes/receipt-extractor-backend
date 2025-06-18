@@ -6,6 +6,18 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { GoogleDocumentAiProvider } from './providers/google-document-ai.provider';
 import { AIProvider } from './enums/ai-provider.enum';
+
+interface ReceiptToSave {
+  date: string | null;
+  currency: string | null;
+  vendorName: string | null;
+  receiptItems: ExtractionData['items'];
+  aiProvider: AIProvider;
+  tax: number | null;
+  total: number | null;
+  imageUrl: string;
+}
+
 @Injectable()
 export class ReceiptService {
   constructor(
@@ -28,7 +40,7 @@ export class ReceiptService {
     const extractedData = await this.aiProvider.extractFromImage(file.path);
 
     // Prepare the data to save
-    const receiptToSave = {
+    const receiptToSave: ReceiptToSave = {
       date: extractedData.date || null,
       currency: extractedData.currency || null,
       vendorName: extractedData.vendor || null,

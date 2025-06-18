@@ -9,6 +9,6 @@ const IMAGE_MIME_TYPES: readonly string[] = [
   'image/jpg',
 ];
 
-const MAX_FILE_SIZE_IN_BYTES = 5 * 1024 * 1024; // 5 MB
+const MAX_FILE_SIZE_IN_BYTES: number = 5 * 1024 * 1024; // 5 MB
 
 export { MIME_TYPES, IMAGE_MIME_TYPES, MAX_FILE_SIZE_IN_BYTES };

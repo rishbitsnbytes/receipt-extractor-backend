@@ -2,11 +2,15 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { DocumentProcessorServiceClient } from '@google-cloud/documentai';
 import * as fs from 'fs';
 import * as path from 'path';
-import type { ExtractionData } from '../types/data-extraction-type';
+import type {
+  DocumentAiProvider,
+  ExtractionData,
+  ReceiptItem,
+} from '../types/data-extraction-type';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class GoogleDocumentAiProvider {
+export class GoogleDocumentAiProvider implements DocumentAiProvider {
   private readonly client: DocumentProcessorServiceClient;
   private readonly projectId: string;
   private readonly location: string;
@@ -49,7 +53,7 @@ export class GoogleDocumentAiProvider {
           ?.mentionText || null;
 
       // Extract line items robustly
-      const items =
+      const items: ReceiptItem[] =
         entities
           .filter((e) => e.type?.toLowerCase() === 'line_item')
           .map((e) => {
@@ -84,8 +88,10 @@ export class GoogleDocumentAiProvider {
         tax:
           getEntityValue('tax') ||
           getEntityValue('total_tax_amount') ||
-          getEntityValue('tax_amount'),
-        total: getEntityValue('total_amount') || getEntityValue('total'),
+          getEntityValue('tax_amount') ||
+          null,
+        total:
+          getEntityValue('total_amount') || getEntityValue('total') || null,
       };
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
