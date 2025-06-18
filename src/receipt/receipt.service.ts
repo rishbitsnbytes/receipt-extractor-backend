@@ -27,9 +27,12 @@ export class ReceiptService {
     private readonly aiProvider: GoogleDocumentAiProvider,
   ) {}
 
-  async extractData(file: Express.Multer.File): Promise<ExtractionData> {
-    // async extractData(file: Express.Multer.File): Promise<void> {
-
+  async extractReceiptDetails(
+    file: Express.Multer.File,
+  ): Promise<ExtractionData> {
+    if (!file.mimetype.startsWith('image/')) {
+      throw new Error('Invalid file type');
+    }
     const baseUrl = this.configService.get<string>(
       'BASE_URL',
       'http://localhost:3000',

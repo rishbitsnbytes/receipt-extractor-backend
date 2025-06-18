@@ -13,11 +13,11 @@ import { ReceiptService } from './receipt.service';
 import { filename, fileFilter, MAX_FILE_SIZE_IN_BYTES } from '../utils';
 import type { ExtractionData } from './types/data-extraction-type';
 
-@Controller('receipt')
+@Controller('extract-receipt-details')
 export class ReceiptController {
   constructor(private readonly receiptService: ReceiptService) {}
 
-  @Post('data-extraction')
+  @Post()
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
@@ -28,10 +28,10 @@ export class ReceiptController {
       limits: { fileSize: MAX_FILE_SIZE_IN_BYTES },
     }),
   )
-  async extractData(
+  async extractReceiptDetails(
     @UploadedFile() file: Express.Multer.File,
   ): Promise<ExtractionData | null> {
     if (!file) throw new BadRequestException('File is required');
-    return this.receiptService.extractData(file);
+    return this.receiptService.extractReceiptDetails(file);
   }
 }
